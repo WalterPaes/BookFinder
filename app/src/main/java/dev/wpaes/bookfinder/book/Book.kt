@@ -1,3 +1,8 @@
 package dev.wpaes.bookfinder.book
 
-class Book(var selfLink: String, var volumeInfo: Volume)
+import com.google.gson.annotations.SerializedName
+
+data class Book(
+    @SerializedName("selfLink") val selfLink : String,
+    @SerializedName("volumeInfo") val volumeInfo : VolumeInfo
+)
