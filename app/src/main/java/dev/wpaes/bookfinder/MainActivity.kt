@@ -3,10 +3,8 @@ package dev.wpaes.bookfinder
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.Response
@@ -24,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         this.txtSearch = findViewById(R.id.txtSearch)
         val btnSearch = findViewById<Button>(R.id.btnSearch)
+        val progressBar = findViewById<ProgressBar>(R.id.progress_circular)
 
         btnSearch.setOnClickListener {
             val search = this.txtSearch?.text.toString()
@@ -34,6 +33,8 @@ class MainActivity : AppCompatActivity() {
                 ).show()
                 return@setOnClickListener
             }
+
+            progressBar.visibility = View.VISIBLE
 
             val queue = Volley.newRequestQueue(this)
             val url = String.format(
@@ -46,9 +47,11 @@ class MainActivity : AppCompatActivity() {
                 Response.Listener { response ->
                     val intent = Intent(this, ResultActivity::class.java)
                     intent.putExtra(ResultActivity.RESULT, response)
+                    progressBar.visibility = View.GONE
                     startActivity(intent)
                 },
                 Response.ErrorListener {
+                    progressBar.visibility = View.GONE
                     Toast.makeText(
                         this, "That didn't work!",
                         Toast.LENGTH_SHORT
