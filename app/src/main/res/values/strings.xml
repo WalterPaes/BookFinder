@@ -7,4 +7,13 @@
     <string name="result_total_items">TOTAL DE RESULTADOS: %d</string>
 
     <string name="thumbnail">Book Cover Thumbnail</string>
+
+    <string name="book_title">%s</string>
+    <string name="book_description">%s</string>
+    <string name="book_authors">Autor(es): %s</string>
+    <string name="book_categories">Categoria(s): %s</string>
+    <string name="book_language">Idioma: %s</string>
+    <string name="book_publisher">Editora: %s</string>
+    <string name="book_published_date">Data de Publicação: %s</string>
+    <string name="book_page_count">Nº de Páginas: %d</string>
 </resources>

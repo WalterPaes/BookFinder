@@ -1,5 +1,6 @@
 package dev.wpaes.bookfinder
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ListView
@@ -33,8 +34,24 @@ class ResultActivity : AppCompatActivity() {
         val adapter = BookAdapter(this, bookList.items)
 
         this.txtResult?.text = getString(R.string.result_total_items).format(adapter.count)
-
         listView.adapter = adapter
+
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val item = bookList.items[position]
+            val intent = Intent(this, BookDetailActivity::class.java)
+
+            intent.putExtra(BookDetailActivity.THUMBNAIL, item.volumeInfo.imageLinks.thumbnail)
+            intent.putExtra(BookDetailActivity.TITLE, item.volumeInfo.title)
+            intent.putExtra(BookDetailActivity.DESCRIPTION, item.volumeInfo.description)
+            intent.putExtra(BookDetailActivity.AUTHOR, item.volumeInfo.authors.toString())
+            intent.putExtra(BookDetailActivity.CATEGORY, item.volumeInfo.categories.toString())
+            intent.putExtra(BookDetailActivity.LANGUAGE, item.volumeInfo.language)
+            intent.putExtra(BookDetailActivity.PUBLISHER, item.volumeInfo.publisher)
+            intent.putExtra(BookDetailActivity.PUBLISHED_DATE, item.volumeInfo.publishedDate)
+            intent.putExtra(BookDetailActivity.PAGE_COUNT, item.volumeInfo.pageCount)
+
+            startActivity(intent)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
