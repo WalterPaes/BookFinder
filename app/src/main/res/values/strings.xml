@@ -3,4 +3,8 @@
 
     <string name="search_hint">Type author, book…</string>
     <string name="search_button">Search</string>
+
+    <string name="result_total_items">TOTAL DE RESULTADOS: %d</string>
+
+    <string name="thumbnail">Book Cover Thumbnail</string>
 </resources>

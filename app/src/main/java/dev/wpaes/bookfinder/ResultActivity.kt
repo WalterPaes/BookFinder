@@ -1,16 +1,19 @@
 package dev.wpaes.bookfinder
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ListView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
+import dev.wpaes.bookfinder.adapter.BookAdapter
 import dev.wpaes.bookfinder.book.SearchResult
-import org.json.JSONObject
 
 class ResultActivity : AppCompatActivity() {
 
-    //private lateinit var listView ListView
+    private var result: String? = null
+    private var txtResult: TextView? = null
+
     companion object {
         const val RESULT = "result"
     }
@@ -21,12 +24,17 @@ class ResultActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val txtResult = findViewById<TextView>(R.id.txtResult)
+        this.result = intent.getStringExtra(RESULT)
+        this.txtResult = findViewById(R.id.txtResult)
 
-        val result = intent.getStringExtra(RESULT)
+        val bookList = Gson().fromJson(this.result, SearchResult::class.java)
 
-        val bookList = Gson().fromJson(result, SearchResult::class.java)
-        txtResult.text = bookList.toString()
+        val listView = findViewById<ListView>(R.id.result_list_view)
+        val adapter = BookAdapter(this, bookList.items)
+
+        this.txtResult?.text = getString(R.string.result_total_items).format(adapter.count)
+
+        listView.adapter = adapter
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
