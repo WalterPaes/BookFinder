@@ -2,6 +2,7 @@ package dev.wpaes.bookfinder.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +33,13 @@ class BookAdapter(
         val book = getItem(position) as Book
         titleTextView.text = book.volumeInfo.title
         publishedDateTextView.text = book.volumeInfo.publishedDate
-        Picasso.get().load(book.volumeInfo.imageLinks.smallThumbnail).into(thumbnailImageView)
+
+        if (book.volumeInfo.imageLinks == null) {
+            Picasso.get().load(R.drawable.no_image).into(thumbnailImageView)
+        } else {
+            Picasso.get().load(book.volumeInfo.imageLinks.smallThumbnail).into(thumbnailImageView)
+        }
+        
         return rowView
     }
 

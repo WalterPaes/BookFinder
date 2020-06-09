@@ -3,6 +3,7 @@ package dev.wpaes.bookfinder
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -38,27 +39,31 @@ class MainActivity : AppCompatActivity() {
 
             val queue = Volley.newRequestQueue(this)
             val url = String.format(
-                "https://www.googleapis.com/books/v1/volumes?q=%s:keyes&key=%s",
+                "https://www.googleapis.com/books/v1/volumes?q=%s&key=%s",
                 search,
                 getString(R.string.google_api_key)
             )
 
-            val stringRequest = StringRequest(Request.Method.GET, url,
-                Response.Listener { response ->
-                    val intent = Intent(this, ResultActivity::class.java)
-                    intent.putExtra(ResultActivity.RESULT, response)
-                    progressBar.visibility = View.GONE
-                    startActivity(intent)
-                },
-                Response.ErrorListener {
-                    progressBar.visibility = View.GONE
-                    Toast.makeText(
-                        this, "That didn't work!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                })
+            try {
+                val stringRequest = StringRequest(Request.Method.GET, url,
+                    Response.Listener { response ->
+                        val intent = Intent(this, ResultActivity::class.java)
+                        intent.putExtra(ResultActivity.RESULT, response)
+                        progressBar.visibility = View.GONE
+                        startActivity(intent)
+                    },
+                    Response.ErrorListener {
+                        progressBar.visibility = View.GONE
+                        Toast.makeText(
+                            this, "That didn't work!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    })
 
-            queue.add(stringRequest)
+                queue.add(stringRequest)
+            } catch (ex: Exception) {
+                Log.e("STRING_REQUEST", ex.message!!)
+            }
         }
     }
 

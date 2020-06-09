@@ -2,6 +2,7 @@ package dev.wpaes.bookfinder
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -47,7 +48,6 @@ class BookDetailActivity : AppCompatActivity() {
         this.publishedDate = findViewById(R.id.txtPublishedDate)
         this.pageCount = findViewById(R.id.txtPageCount)
 
-        Picasso.get().load(intent.getStringExtra(THUMBNAIL)).into(this.thumbnail)
         this.title?.text = intent.getStringExtra(TITLE)
         this.description?.text = intent.getStringExtra(DESCRIPTION)
         this.language?.text =
@@ -61,6 +61,11 @@ class BookDetailActivity : AppCompatActivity() {
         this.author?.text = getString(R.string.book_authors).format(intent.getStringExtra(AUTHOR))
         this.category?.text =
             getString(R.string.book_categories).format(intent.getStringExtra(CATEGORY))
+
+        if (intent.getStringExtra(THUMBNAIL).isNullOrEmpty()) {
+            this.thumbnail!!.visibility = View.GONE
+        }
+        Picasso.get().load(intent.getStringExtra(THUMBNAIL)).into(this.thumbnail)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
